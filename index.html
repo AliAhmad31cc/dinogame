@@ -1,138 +1,39 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-us">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    
-    <!-- Mobile Fullscreen & WebApp Settings -->
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#0d0d1e">
-
-    <!-- High-Definition Icons -->
-    <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
-    <link rel="apple-touch-icon" href="favicon.png">
-
-    <title>Arcade Game</title>
-
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>pygame-web</title>
     <style>
-        * {
-            box-sizing: border-box;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
-        }
-
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            background: #080814;
+            background-color: black;
             overflow: hidden;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-
         #canvas {
-            display: block;
             width: 100%;
             height: 100%;
             object-fit: contain;
-            background: #080814;
         }
-
-        /* Modern Loading Overlay */
-        #loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, #18152e 0%, #080814 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-        }
-
-        .spinner-ring {
-            width: 65px;
-            height: 65px;
-            border: 4px solid rgba(255, 255, 255, 0.08);
-            border-top: 4px solid #00e5ff;
-            border-right: 4px solid #00e5ff;
-            border-radius: 50%;
-            animation: spin 0.9s cubic-bezier(0.6, 0.2, 0.4, 0.8) infinite;
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .loading-title {
-            color: #ffffff;
-            font-size: 20px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-top: 24px;
-            text-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-        }
-
-        .loading-sub {
-            color: #8a8fa8;
-            font-size: 13px;
-            margin-top: 8px;
-            letter-spacing: 1px;
-        }
-
-        .hidden {
-            opacity: 0 !important;
-            visibility: hidden !important;
-            pointer-events: none !important;
+        #status {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-family: sans-serif;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-
-    <div id="loading-overlay">
-        <div class="spinner-ring"></div>
-        <div class="loading-title">LOADING GAME</div>
-        <div class="loading-sub">PREPARING ENGINES...</div>
-    </div>
-
+    <div id="status"></div>
     <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
-
-    <script type="text/javascript">
-        // Watch for canvas active frames to smoothly dismiss loader
-        const loader = document.getElementById('loading-overlay');
-        const hideLoader = () => {
-            if (loader && !loader.classList.contains('hidden')) {
-                loader.classList.add('hidden');
-            }
-        };
-
-        // Safety fallback: auto-hide after load starts
-        window.addEventListener('load', () => {
-            const canvas = document.getElementById('canvas');
-            const checkReady = setInterval(() => {
-                if (canvas && (canvas.width > 300 || window.pygame)) {
-                    hideLoader();
-                    clearInterval(checkReady);
-                }
-            }, 100);
-            setTimeout(hideLoader, 3500);
-        });
-    </script>
-
-    <!-- Pygbag WebAssembly Loader Engine -->
-    <script src="https://pygame-web.github.io/cdn/0.9.3/pythons.js" type="module" id="package#main.py" async defer></script>
+    <script src="https://pygame-web.github.io/cdn/0.9.3/pythons.js" type="module" id="package#main.py" data-autoplay="true" data-status="#status"></script>
 </body>
 </html>
